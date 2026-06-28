@@ -64,6 +64,7 @@ public class ProductService(IProductRepository productRepository)
             PriceCents = product.PriceCents,
             PriceCurrency = product.PriceCurrency,
             ProductUrl = product.ProductUrl,
+            ImageUrl = product.ImageUrl,
             Stock = product.Stock,
             DiscountPercent = product.DiscountPercent,
             CreatedAt = product.CreatedAt,

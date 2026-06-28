@@ -101,6 +101,8 @@ services:
     build:
       context: .
       dockerfile: Oms/Dockerfile
+    profiles:
+      - load
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - RabbitMq__HostName=rabbitmq

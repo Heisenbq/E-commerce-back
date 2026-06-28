@@ -14,6 +14,8 @@ public class V1ProductDal
 
     public string ProductUrl { get; set; }
 
+    public string ImageUrl { get; set; }
+
     public int Stock { get; set; }
 
     public int DiscountPercent { get; set; }
