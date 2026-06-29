@@ -18,37 +18,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-  
-  pgbouncer:
-    image: pgbouncer/pgbouncer:latest
-    container_name: pgbouncer
-    environment:
-      - POSTGRESQL_HOST=postgres
-      - POSTGRESQL_USERNAME=user
-      - POSTGRESQL_DATABASE=postgres
-      - POSTGRESQL_PASSWORD=mypassword
-      - DATABASES_HOST=postgres
-      - DATABASES_PORT=5432
-      - DATABASES_DBNAME=postgres
-      - DATABASES_USER=user
-      - DATABASES_PASSWORD=mypassword
-      - PGBOUNCER_IDLE_TRANSACTION_TIMEOUT=60
-      - PGBOUNCER_POOL_MODE=transaction
-      - PGBOUNCER_SERVER_RESET_QUERY_ALWAYS=0
-      - PGBOUNCER_SERVER_LIFETIME=3600
-      - PGBOUNCER_SERVER_IDLE_TIMEOUT=60
-      - PGBOUNCER_MAX_DB_CONNECTIONS=50
-      - PGBOUNCER_MAX_CLIENT_CONN=10000
-      - PGBOUNCER_RESERVE_POOL_SIZE=5
-      - PGBOUNCER_MIN_POOL_SIZE=2
-      - PGBOUNCER_DEFAULT_POOL_SIZE=16
-      - PGBOUNCER_IGNORE_STARTUP_PARAMETERS=extra_float_digits
-    ports:
-      - "15432:6432"
-    depends_on:
-      postgres:
-        condition: service_healthy
-    restart: unless-stopped
 
   webapi:
     build:
@@ -58,7 +27,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DbSettings__MigrationConnectionString=Host=postgres;Port=5432;Database=postgres;User Id=user;Password=mypassword;Pooling=true;LoadTableComposites=true;No Reset On Close=true;Persist Security Info=False;Maximum Pool Size=100;Connection Idle Lifetime=300;Keepalive=300;TCP Keepalive=True
-      - DbSettings__ConnectionString=Host=pgbouncer;Port=6432;Database=postgres;User Id=user;Password=mypassword;Pooling=true;LoadTableComposites=true;No Reset On Close=true;Persist Security Info=False;Maximum Pool Size=100;Connection Idle Lifetime=300;Keepalive=300;TCP Keepalive=True
+      - DbSettings__ConnectionString=Host=postgres;Port=5432;Database=postgres;User Id=user;Password=mypassword;Pooling=true;LoadTableComposites=true;No Reset On Close=true;Persist Security Info=False;Maximum Pool Size=100;Connection Idle Lifetime=300;Keepalive=300;TCP Keepalive=True
       - RabbitMq__HostName=rabbitmq
       - RabbitMq__Port=5672
       - RabbitMq__Exchange=oms
@@ -91,8 +60,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      pgbouncer:
-        condition: service_started
       rabbitmq:
         condition: service_started
     restart: unless-stopped
